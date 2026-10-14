@@ -1,0 +1,34 @@
+# Replace YOUR_DOMAIN with your actual domain name before deploying
+# e.g. projectflow.example.com
+
+projectflow.localhost {
+    reverse_proxy localhost:8000
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'"
+        -Server
+    }
+    handle_errors {
+        respond "{err.status_code} {err.status_text}"
+    }
+}
+
+# Uncomment and configure for real domain deployment:
+# projectflow.example.com {
+#     reverse_proxy localhost:8000
+#     header {
+#         X-Content-Type-Options nosniff
+#         X-Frame-Options DENY
+#         X-XSS-Protection "1; mode=block"
+#         Referrer-Policy "strict-origin-when-cross-origin"
+#         Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'"
+#         -Server
+#     }
+#     encode gzip
+#     log {
+#         output file /data/access.log
+#     }
+# }
